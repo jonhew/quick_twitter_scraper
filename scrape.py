@@ -5,11 +5,10 @@ from pymongo import Connection
 
 # Mongo establish connection & define RDB
 connection = Connection()
-db = connection.etsy_tweets
-down_tweets = db.etsy_down
-up_tweets = db.etsy_up
+db = connection.nerd_rapper_names
+tweets = db.tweets
 
-def scrape(url, down):
+def scrape(url):
     losers = []
     for x in range(1,50):
         print x
@@ -17,10 +16,8 @@ def scrape(url, down):
             r = requests.get(url + str(x))
             json = simplejson.loads(r.content)
             for tweet in json['results']:
-                if down == 1:
-                    tp = down_tweets.insert(tweet)
-                else:
-                    tp = up_tweets.insert(tweet)
+                t = tweets.insert(tweet)
+
         except:
             print "Lost " + str(x)
             losers.append(x)
@@ -30,9 +27,8 @@ def scrape(url, down):
                 r = requests.get(url + str(x))
                 json = simplejson.loads(r.content)
                 for tweet in json['results']:
-                    tp = tweets.insert(tweet)
+                    t = tweets.insert(tweet)
             except:
                 print "Lost " + str(x)
 
-scrape('http://search.twitter.com/search.json?q=etsy+down&rpp=100&page=', 1)
-scrape('http://search.twitter.com/search.json?q=etsy+back+up&rpp=100&page=', 0)
+scrape('http://search.twitter.com/search.json?q=nerdrappernames&rpp=100&page=')
