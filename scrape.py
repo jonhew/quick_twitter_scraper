@@ -4,6 +4,9 @@ import pymongo
 import time
 from pymongo import Connection
 
+# query
+query = "NerdRapperNames"
+
 # Mongo establish connection & define RDB
 connection = Connection()
 db = connection.nerd_rapper_names
@@ -26,5 +29,5 @@ def scrape(url):
             print "Lost " + str(x)
 
 while True:
-  scrape('http://search.twitter.com/search.json?q=nerdrappernames&rpp=100&page=')
+  scrape('http://search.twitter.com/search.json?q=' + query + '&rpp=100&page=')
   time.sleep(500)
