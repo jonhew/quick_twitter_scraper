@@ -9,7 +9,7 @@ query = "NerdRapperNames"
 
 # Mongo establish connection & define RDB
 connection = Connection()
-db = connection.nerd_rapper_names
+db = connection.nerds
 tweets = db.tweets
 
 def scrape(url):
@@ -19,10 +19,10 @@ def scrape(url):
             r = requests.get(url + str(x))
             json = simplejson.loads(r.content)
             for tweet in json['results']:
-                if tweets.find({'from_user' : tweet['from_user'], 'text' : tweet['text'], 'id' : tweet['id']}):
+                if tweets.find({'from_user' : tweet['from_user'], 'text' : tweet['text'], 'id' : tweet['id']}).count() != 0:
                     continue
                 else:
-                  print "inserting"
+                  print tweet['text']
                   t = tweets.insert(tweet)
 
         except:
